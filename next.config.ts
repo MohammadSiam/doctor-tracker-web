@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from "next"
+
+const API_URL = process.env.API_URL ?? "http://localhost:5000"
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
@@ -12,6 +13,10 @@ const nextConfig: NextConfig = {
       },
     },
   },
-};
+  // Same-origin API: the browser calls /api/*, Next forwards it to Express.
+  async rewrites() {
+    return [{ source: "/api/:path*", destination: `${API_URL}/api/:path*` }]
+  },
+}
 
-export default nextConfig;
+export default nextConfig
