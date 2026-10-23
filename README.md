@@ -1,6 +1,6 @@
 # Doctor Tracker: Frontend
 
-> **Live app:** https://doctor-tracker-web-eight.vercel.app · **API repo:** [doctor-tracker-api](https://github.com/MohammadSiam/doctor-tracker-api) · **Live API docs:** https://doctor-tracker-api-gz8w.onrender.com/api/docs
+> **Live app:** https://doctor-tracker-web-eight.vercel.app (mirror: https://doctor-tracker-web.netlify.app) · **API repo:** [doctor-tracker-api](https://github.com/MohammadSiam/doctor-tracker-api) · **Live API docs:** https://doctor-tracker-api-gz8w.onrender.com/api/docs
 >
 > **Demo login:** `admin@doctortracker.com` / `Admin@123` (there's also a one-click "Use" button on the login page)
 
@@ -54,6 +54,8 @@ pnpm build && pnpm start
 | `API_URL` | Base URL of the Express API. Used **server-side only** by the `/api/*` rewrite in `next.config.ts`, so it never reaches the browser bundle. |
 
 **Deploying to Vercel:** import the repo, set `API_URL` to the Render URL of the API (`https://doctor-tracker-api-gz8w.onrender.com`), and deploy. No other configuration is needed.
+
+**Netlify mirror:** the same app also runs on Netlify (`netlify.toml`), with the same `API_URL` variable, because `*.vercel.app` is unreachable from some networks.
 
 ## System architecture
 
