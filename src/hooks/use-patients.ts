@@ -1,7 +1,6 @@
 "use client"
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { useEffect } from "react"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { patientsApi, type PatientListParams } from "@/lib/api/endpoints"
 import { keepPreviousPage } from "@/lib/api/placeholder"
@@ -10,26 +9,12 @@ import type { PatientFormValues } from "@/lib/schemas"
 import { useInvalidateAll } from "./use-doctors"
 
 export function usePatients(params: PatientListParams) {
-  const queryClient = useQueryClient()
   const queryKey = queryKeys.patients.list(params)
-  const query = useQuery({
+  return useQuery({
     queryKey,
     queryFn: ({ signal }) => patientsApi.list(params, signal),
     placeholderData: keepPreviousPage(queryKey),
   })
-
-  const totalPages = query.data?.meta.totalPages ?? 0
-  useEffect(() => {
-    if (params.page < totalPages) {
-      const next = { ...params, page: params.page + 1 }
-      queryClient.prefetchQuery({
-        queryKey: queryKeys.patients.list(next),
-        queryFn: ({ signal }) => patientsApi.list(next, signal),
-      })
-    }
-  }, [params, totalPages, queryClient])
-
-  return query
 }
 
 export function useSavePatient() {

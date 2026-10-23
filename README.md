@@ -15,7 +15,7 @@ Doctor Tracker is a secure admin portal for clinics and hospital groups to manag
 - **Doctor detail**: profile, their patients (with their own search, filter and pagination), add a patient under the doctor, remove a patient from the list
 - **Patients**: list all, edit (including reassigning to another doctor), delete; search; filter by condition, gender, doctor and admission-date range
 - **Dashboard**: KPI cards with month-over-month growth, admissions area chart (7D/30D/90D/12M), condition donut, patients per doctor (click a bar to open the doctor), patients by specialization, age distribution, gender split
-- **UX details**: skeleton loaders, a thin progress bar while pages change (previous rows stay visible), next-page prefetch, empty and error states with retry, toast feedback, server validation errors shown on the right form field, confirm dialogs, keyboard-accessible menus, dark mode, and a responsive layout down to 360px
+- **UX details**: skeleton loaders, a thin progress bar while pages change (previous rows stay visible), empty and error states with retry, toast feedback, server validation errors shown on the right form field, confirm dialogs, keyboard-accessible menus, dark mode, and a responsive layout down to 360px
 
 ## Tech stack
 
@@ -136,7 +136,7 @@ Almost all state in this app is **server state** (lists, details, stats) or **UR
 
 - **Redux / Zustand** would mean hand-writing loading flags, caching, deduping, invalidation and refetching: a lot of code that TanStack Query already provides.
 - **React Context** re-renders every consumer on any change and has no caching or request deduplication.
-- **TanStack Query** caches by key, deduplicates identical requests, cancels outdated ones (each request gets an `AbortSignal`), and gives us `placeholderData: keepPreviousData` so the table never blanks out between pages. Hierarchical keys make invalidation a single line: after adding a patient, `invalidateQueries(["doctors"])` refreshes the doctor list, the detail page's count and its patient list at once. We also **prefetch the next page**, so "Next" feels instant.
+- **TanStack Query** caches by key, deduplicates identical requests, cancels outdated ones (each request gets an `AbortSignal`), and gives us `placeholderData` so the table never blanks out between pages (previous rows are kept only while paging; a new search or filter shows skeletons, so old results are never mistaken for new ones). Hierarchical keys make invalidation a single line: after adding a patient, `invalidateQueries(["doctors"])` refreshes the doctor list, the detail page's count and its patient list at once. Every view revalidates on mount (`staleTime: 0`), and each page click is exactly one request: no speculative prefetching.
 - **nuqs** keeps filters, page and sort in the URL, type-checked by parsers (for example `parseAsStringLiteral(CONDITIONS)` rejects an unknown condition). A filtered view can be shared or bookmarked, survives a refresh, and works with the back button. Because the URL params are the query key, there's a single source of truth and no syncing code.
 
 Re-render control: the search box keeps keystrokes in local state and only updates the URL after typing pauses (300 ms debounce), table columns are memoized, and each list view subscribes only to its own query.
