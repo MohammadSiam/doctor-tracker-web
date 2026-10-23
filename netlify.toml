@@ -1,0 +1,8 @@
+# Netlify mirror of the Vercel deployment. The Next.js runtime is detected automatically;
+# API_URL is set in the site's environment, as on Vercel.
+[build]
+  command = "pnpm build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
