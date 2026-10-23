@@ -53,7 +53,7 @@ pnpm build && pnpm start
 |---|---|
 | `API_URL` | Base URL of the Express API. Used **server-side only** by the `/api/*` rewrite in `next.config.ts`, so it never reaches the browser bundle. |
 
-**Deploying to Vercel:** import the repo, set `API_URL` to the Render URL of the API (for example `https://doctor-tracker-api.onrender.com`), and deploy. No other configuration is needed.
+**Deploying to Vercel:** import the repo, set `API_URL` to the Render URL of the API (`https://doctor-tracker-api-gz8w.onrender.com`), and deploy. No other configuration is needed.
 
 ## System architecture
 
