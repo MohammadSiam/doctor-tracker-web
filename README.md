@@ -1,6 +1,6 @@
 # Doctor Tracker: Frontend
 
-> **Live app:** _https://doctor-tracker.vercel.app_ (update after deploy) · **API repo:** [doctor-tracker-api](https://github.com/<your-username>/doctor-tracker-api)
+> **Live app:** _https://doctor-tracker.vercel.app_ (update after deploy) · **API repo:** [doctor-tracker-api](https://github.com/MohammadSiam/doctor-tracker-api)
 >
 > **Demo login:** `admin@doctortracker.com` / `Admin@123` (there's also a one-click "Use" button on the login page)
 
@@ -30,11 +30,11 @@ Doctor Tracker is a secure admin portal for clinics and hospital groups to manag
 
 ## Setup guide
 
-**Prerequisites:** Node.js ≥ 20, pnpm (`corepack enable`), and the [API](https://github.com/<your-username>/doctor-tracker-api) running locally (default `http://localhost:5000`).
+**Prerequisites:** Node.js ≥ 20, pnpm (`corepack enable`), and the [API](https://github.com/MohammadSiam/doctor-tracker-api) running locally (default `http://localhost:5000`).
 
 ```bash
 # 1. Clone and install
-git clone https://github.com/<your-username>/doctor-tracker-web.git
+git clone https://github.com/MohammadSiam/doctor-tracker-web.git
 cd doctor-tracker-web
 pnpm install
 
