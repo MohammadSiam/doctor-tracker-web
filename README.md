@@ -1,6 +1,6 @@
 # Doctor Tracker: Frontend
 
-> **Live app:** _https://doctor-tracker.vercel.app_ (update after deploy) · **API repo:** [doctor-tracker-api](https://github.com/MohammadSiam/doctor-tracker-api)
+> **Live app:** https://doctor-tracker-web-eight.vercel.app · **API repo:** [doctor-tracker-api](https://github.com/MohammadSiam/doctor-tracker-api) · **Live API docs:** https://doctor-tracker-api-gz8w.onrender.com/api/docs
 >
 > **Demo login:** `admin@doctortracker.com` / `Admin@123` (there's also a one-click "Use" button on the login page)
 
