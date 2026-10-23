@@ -13,7 +13,9 @@ function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 30_000,
+        // Always revalidate when a view mounts: cached rows show instantly, dimmed with a progress
+        // bar, and are replaced by the server's answer. Admin data must never silently be old.
+        staleTime: 0,
         refetchOnWindowFocus: false,
         // Retrying a 4xx (bad id, expired session) only delays the error.
         retry: (failureCount, error) =>

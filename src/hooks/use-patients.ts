@@ -1,19 +1,21 @@
 "use client"
 
-import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useEffect } from "react"
 import { toast } from "sonner"
 import { patientsApi, type PatientListParams } from "@/lib/api/endpoints"
+import { keepPreviousPage } from "@/lib/api/placeholder"
 import { queryKeys } from "@/lib/api/query-keys"
 import type { PatientFormValues } from "@/lib/schemas"
 import { useInvalidateAll } from "./use-doctors"
 
 export function usePatients(params: PatientListParams) {
   const queryClient = useQueryClient()
+  const queryKey = queryKeys.patients.list(params)
   const query = useQuery({
-    queryKey: queryKeys.patients.list(params),
+    queryKey,
     queryFn: ({ signal }) => patientsApi.list(params, signal),
-    placeholderData: keepPreviousData,
+    placeholderData: keepPreviousPage(queryKey),
   })
 
   const totalPages = query.data?.meta.totalPages ?? 0

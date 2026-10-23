@@ -1,6 +1,7 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
+import { parseISO } from "date-fns"
 import { Loader2 } from "lucide-react"
 import { useEffect } from "react"
 import { Controller, useForm } from "react-hook-form"
@@ -15,7 +16,7 @@ import { useAddDoctorPatient } from "@/hooks/use-doctors"
 import { useSavePatient } from "@/hooks/use-patients"
 import { CONDITIONS, GENDERS } from "@/lib/constants"
 import { applyServerErrors } from "@/lib/form-errors"
-import { toIsoDate } from "@/lib/format"
+import { toAdmittedAt, toIsoDate } from "@/lib/format"
 import { patientSchema, type PatientFormValues } from "@/lib/schemas"
 import type { DoctorSummary, Patient } from "@/lib/types"
 import { DoctorCombobox } from "./doctor-combobox"
@@ -64,14 +65,15 @@ export function PatientFormDialog({ open, onOpenChange, patient, fixedDoctor }: 
             condition: patient.condition,
             diagnosis: patient.diagnosis,
             notes: patient.notes ?? "",
-            admittedAt: patient.admittedAt.slice(0, 10),
+            admittedAt: toIsoDate(parseISO(patient.admittedAt)),
             doctor: patient.doctor?._id ?? "",
           }
         : emptyValues(fixedDoctor?._id),
     )
   }, [open, patient, fixedDoctor, form])
 
-  const onSubmit = form.handleSubmit((values) => {
+  const onSubmit = form.handleSubmit((formValues) => {
+    const values = { ...formValues, admittedAt: toAdmittedAt(formValues.admittedAt, patient?.admittedAt) }
     const callbacks = { onSuccess: () => onOpenChange(false), onError: (error: Error) => applyServerErrors(form, error) }
     if (fixedDoctor && !patient) {
       addToDoctor.mutate(omitDoctor(values), callbacks)

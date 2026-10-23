@@ -16,3 +16,16 @@ export const initials = (name: string) =>
 
 /** `2026-10-23` -> `2026-10-23`, Date -> `yyyy-MM-dd` (the API accepts plain dates). */
 export const toIsoDate = (date: Date) => format(date, "yyyy-MM-dd")
+
+/**
+ * The form picks a calendar day; the API stores an instant. Sending a bare `yyyy-MM-dd` would store
+ * midnight UTC, so a patient admitted "today" would sort below everyone admitted earlier today.
+ * Keep the original timestamp when the day is unchanged, otherwise use that day at the current time.
+ */
+export const toAdmittedAt = (day: string, original?: string) => {
+  if (original && toIsoDate(parseISO(original)) === day) return original
+  const now = new Date()
+  const date = parseISO(day)
+  date.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds())
+  return date.toISOString()
+}

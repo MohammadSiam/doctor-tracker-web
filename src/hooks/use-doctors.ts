@@ -4,15 +4,17 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tansta
 import { useEffect } from "react"
 import { toast } from "sonner"
 import { doctorsApi, type DoctorListParams, type PatientListParams } from "@/lib/api/endpoints"
+import { keepPreviousPage } from "@/lib/api/placeholder"
 import { queryKeys } from "@/lib/api/query-keys"
 import type { DoctorFormValues, PatientFormValues } from "@/lib/schemas"
 
 export function useDoctors(params: DoctorListParams) {
   const queryClient = useQueryClient()
+  const queryKey = queryKeys.doctors.list(params)
   const query = useQuery({
-    queryKey: queryKeys.doctors.list(params),
+    queryKey,
     queryFn: ({ signal }) => doctorsApi.list(params, signal),
-    placeholderData: keepPreviousData, // keep the current page visible while the next one loads
+    placeholderData: keepPreviousPage(queryKey), // keep the current page visible while the next one loads
   })
 
   // Prefetch the next page so "Next" feels instant.
@@ -48,10 +50,11 @@ export function useDoctorLookup(search: string, enabled = true) {
 }
 
 export function useDoctorPatients(id: string, params: Omit<PatientListParams, "doctor">) {
+  const queryKey = queryKeys.doctors.patients(id, params)
   return useQuery({
-    queryKey: queryKeys.doctors.patients(id, params),
+    queryKey,
     queryFn: ({ signal }) => doctorsApi.patients(id, params, signal),
-    placeholderData: keepPreviousData,
+    placeholderData: keepPreviousPage(queryKey),
   })
 }
 
